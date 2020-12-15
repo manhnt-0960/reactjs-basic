@@ -2,16 +2,12 @@
 @import "./base/_mixins";
 @import "./base/_global";
 
-// @import "./components/_product";
-// @import "./components/_products";
-// @import "./components/_pagination";
-// @import "./components/_resultTop";
+@import "./components/_products";
+@import "./components/_pagination";
+@import "./components/_result-top";
 @import "./components/_menu";
-// @import "./components/_show-result-for";
-// @import "./components/_refine-by-type";
-// @import "./components/_refine-by-ratings";
-// @import "./components/_refine-by-prices";
-// @import "./components/_refine-by-brand";
+@import "./components/_refine-by-ratings";
+@import "./components/_refine-by-prices";
 
 @import "./layouts/_header";
 @import "./layouts/_menu";

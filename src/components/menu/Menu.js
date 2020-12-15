@@ -17,6 +17,10 @@ function Menu(props){
     handleByBrand,
     valueByRating,    
     handleByRating,
+    valueByPriceStart,
+    valueByPriceEnd,
+    handleByPrice,
+    handleClearAllFilter,
   } = props;
 
   const [types, setTypes] = useState([]);
@@ -35,7 +39,16 @@ function Menu(props){
     <React.Fragment>
       <aside className="menu">
         <div className="menu__clear">
-          <button>Clear all filter</button>
+          {valueByBrand.length > 0 ||
+            valueTitle ||
+            valueType ||
+            valueByType.length > 0 ||
+            valueByRating ||
+            valueByPriceStart ||
+            valueByPriceEnd ? (
+              <button onClick={()=> handleClearAllFilter()}>Clear all filter</button>
+            ) : ("")
+          }
         </div>
         <div className="menu__result">
           <p className="menu__title-1">Show result for</p>
@@ -75,7 +88,11 @@ function Menu(props){
           />
           
           <p className="menu__title-2">Prices</p>
-          <RefineByPrices/>
+          <RefineByPrices
+            valueByPriceStart={valueByPriceStart}
+            valueByPriceEnd={valueByPriceEnd}
+            handleByPrice={handleByPrice}
+          />
         </div>
         <hr></hr>
         <div className="menu__text">Data courtesy of Best Buy</div>

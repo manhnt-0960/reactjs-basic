@@ -16,7 +16,7 @@ function RefineByRatings(props){
       if(i < rating){
         stars.push(<span className="fa fa-star" key={i} />);
       } else{
-        stars.push(<span className="fa fa-star-o" key={5 - i} />);
+        stars.push(<span className="fa fa-star-o" key={i} />);
       }
       i++;
     }
@@ -28,7 +28,7 @@ function RefineByRatings(props){
   };
 
   return(
-    <div class="refine-by-ratings">
+    <div className="refine-by-ratings">
       <ul>
         {ratings.map((e, i) => (
           <li key={i}
