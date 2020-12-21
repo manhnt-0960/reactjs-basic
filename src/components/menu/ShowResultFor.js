@@ -1,13 +1,9 @@
-import React from "react"
+import React from "react";
+import { connect } from "react-redux";
+import {editTitle, editType} from "../../actions/index";
 
 function ShowResultFor(props){
-  const {
-    types,
-    valueTitle,
-    handleTitle,
-    valueType,
-    handleType,
-  } = props;
+  const {types, valueTitle, valueType, handleType, handleTitle} = props;
 
   const toggle = (id, title, subs) => {
     let index = types.findIndex((x) => x.id === id)
@@ -63,4 +59,22 @@ function ShowResultFor(props){
   );
 }
 
-export default ShowResultFor;
+const mapStateToProps = (state) => {
+  return ({
+    valueTitle: state.valueTitle,
+    valueType: state.valueType
+  })
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return{
+    handleTitle: (title) => {
+      dispatch(editTitle(title))
+    },
+    handleType: (type) => {
+      dispatch(editType(type))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShowResultFor);
