@@ -1,0 +1,10 @@
+export const EDIT_TITLE = "EDIT_TITLE";
+export const EDIT_TYLE = "EDIT_TYLE";
+export const EDIT_BY_TYPE = "EDIT_BY_TYPE";
+export const EDIT_BRAND = "EDIT_BRAND";
+export const EDIT_RATING = "EDIT_RATING";
+export const EDIT_PRICE_START = "EDIT_PRICE_START";
+export const EDIT_PRICE_END = "EDIT_PRICE_END";
+export const CLEAR_FILLTER = "CLEAR_FILLTER";
+export const FETCH_TYPES = "FETCH_TYPES";
+export const FETCH_TYPES_SUCCESS = "FETCH_TYPES_SUCCESS";

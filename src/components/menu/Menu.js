@@ -1,4 +1,7 @@
 import React, {useState, useEffect} from "react";
+import {connect} from "react-redux";
+import {fetchTypes, clearAllFillter} from "../../actions/index"
+
 import ShowResultFor from "./ShowResultFor";
 import RefineByType from "./RefineByType";
 import RefineByBrand from "./RefineByBrand";
@@ -7,46 +10,38 @@ import RefineByPrices from "./RefineByPrices";
 
 function Menu(props){
   const {
+    types,
     valueTitle,
-    handleTitle,
     valueType,
-    handleType,
     valueByType,
-    handleByType,
-    valueByBrand,
-    handleByBrand,
-    valueByRating,    
-    handleByRating,
-    valueByPriceStart,
-    valueByPriceEnd,
-    handleByPrice,
-    handleClearAllFilter,
+    valueBrand,
+    valueRating,
+    valuePriceStart,
+    valuePriceEnd,
+    clearAllFillter,
+    fetchTypes
   } = props;
 
-  const [types, setTypes] = useState([]);
-
-  useEffect(()=>{
-    let url = "http://localhost:4000/types";
-
-    fetch(url)
-      .then((res)=> res.json())
-      .then((result)=>{
-        setTypes(result);
-      });
+  useEffect(() => {
+    fetchTypes();
   }, []);
+
+  const clearFillter = () => {
+    clearAllFillter();
+  }
 
   return(
     <React.Fragment>
       <aside className="menu">
         <div className="menu__clear">
-          {valueByBrand.length > 0 ||
+          {valueBrand.length > 0 ||
             valueTitle ||
             valueType ||
             valueByType.length > 0 ||
-            valueByRating ||
-            valueByPriceStart ||
-            valueByPriceEnd ? (
-              <button onClick={()=> handleClearAllFilter()}>Clear all filter</button>
+            valueRating ||
+            valuePriceStart ||
+            valuePriceEnd ? (
+              <button onClick={()=> clearFillter()}>Clear all filter</button>
             ) : ("")
           }
         </div>
@@ -54,45 +49,26 @@ function Menu(props){
           <p className="menu__title-1">Show result for</p>
           <ShowResultFor
             types={types}
-            valueTitle={valueTitle}
-            handleTitle={handleTitle}
-            valueType={valueType}
-            handleType={handleType}
           />
         </div>
         <hr></hr>
         <div className="menu__refine">
           <p className="menu__title-1">Refine by</p>
           <p className="menu__title-2">Type</p>
-          <RefineByType
-            types={types}
-            valueTitle={valueTitle}
-            handleTitle={handleTitle}
-            valueByType={valueByType}
-            handleByType={handleByType}
-          />
+          {/* <RefineByType
+          /> */}
 
           <p className="menu__title-2">Brand</p>
-          <RefineByBrand
-            types={types}
-            valueTitle={valueTitle}
-            handleByBrand={handleByBrand}
-            valueByBrand={valueByBrand}
-            valueType={valueType}
-          />
+          {/* <RefineByBrand
+          /> */}
 
           <p className="menu__title-2">Ratings</p>
-          <RefineByRatings
-            valueByRating={valueByRating}
-            handleByRating={handleByRating}
-          />
+          {/* <RefineByRatings
+          /> */}
           
           <p className="menu__title-2">Prices</p>
-          <RefineByPrices
-            valueByPriceStart={valueByPriceStart}
-            valueByPriceEnd={valueByPriceEnd}
-            handleByPrice={handleByPrice}
-          />
+          {/* <RefineByPrices
+          /> */}
         </div>
         <hr></hr>
         <div className="menu__text">Data courtesy of Best Buy</div>
@@ -101,4 +77,28 @@ function Menu(props){
   );
 }
 
-export default Menu;
+const mapStateToProps = (state) => {
+  return {
+    types: state.types,
+    valueTitle: state.valueTitle,
+    valueType: state.valueType,
+    valueByType: state.valueByType,
+    valueBrand: state.valueBrand,
+    valueRating: state.valueRating,
+    valuePriceStart: state.valuePriceStart,
+    valuePriceEnd: state.valuePriceEnd,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    clearAllFillter: () => {
+      dispatch(clearAllFillter());
+    },
+    fetchTypes: () => {
+      dispatch(fetchTypes());
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);
