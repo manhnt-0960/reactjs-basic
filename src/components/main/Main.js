@@ -1,93 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import ResultTop from "./ResultTop";
 import Products from "./Products";
 import Pagination from "./Pagination";
+import { fetchProduct, editCountProduct, editCurrentPage, editSort } from "../../actions/main";
+import { connect } from "react-redux";
 
 function Main(props){
   const {
     valueTitle,
     valueType,
     valueByType,
-    valueByBrand,
-    valueByRating,    
-    valueByPriceStart,
-    valueByPriceEnd,
+    valueBrand,
+    valueRating,    
+    valuePriceStart,
+    valuePriceEnd,
     valueSearch,
+    products,
+    sort,
+    currentPage,
+    countProduct,
+    loadProduct,
+    handleCountProduct,
+    handleCurrentPage,
+    handleSort
   } = props;
 
-  const [products, setProducts] = useState([]);
-  const [sort, setSort] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-
   useEffect(()=> {
-    let url= `http://localhost:4000/products?`;
-
-    if (valueTitle) {
-      url += `&title=${valueTitle}`;
-    }
-
-    if (valueType) {
-      url += `&type=${valueType}`;
-    }
-
-    if (valueByType.length > 0) {
-      for (let i = 0; i < valueByType.length; i++){
-        url += `&byType=${valueByType[i]}`;
-      }
-    }
-
-    if (valueByBrand.length > 0) {
-      for (let i = 0; i < valueByBrand.length; i++){
-        url += `&brand=${valueByBrand[i]}`;
-      }
-    }
-
-    if (valueByRating) {
-      for (let i = valueByRating; i < 5; i++ ){
-        url += `&ratings=${i}`;
-      }
-    }
-    
-    if (valueByPriceStart) {
-      url += `&price_gte=${valueByPriceStart}`;
-    }
-
-    if (valueByPriceEnd) {
-      url += `&price_lte=${valueByPriceEnd}`;
-    }
-
-    if (valueSearch) {
-      url +=`&q=${valueSearch}`;
-    }
-
-    if (sort) {
-      url += `&_sort=price&_order=${sort}`;
-    }
-
-    fetch(url)
-      .then((res) => res.json())
-      .then((result) => {
-        setProducts(result);
-      })
+    loadProduct(valueTitle,
+      valueType,
+      valueByType,
+      valueBrand,
+      valueRating,
+      valuePriceStart,
+      valuePriceEnd,
+      valueSearch,
+      sort)
   }, [
     valueTitle,
     valueType,
     valueByType,
-    valueByBrand,
-    valueByRating,    
-    valueByPriceStart,
-    valueByPriceEnd,
+    valueBrand,
+    valueRating,    
+    valuePriceStart,
+    valuePriceEnd,
     valueSearch,
     sort,
+    loadProduct
   ]);
 
-  const handleSort = (sort) => {
-    setSort(sort);
-  }
+  useEffect(()=>{
 
-  const handleCurrentPage = (page) => {
-    setCurrentPage(page);
-  }
+    handleCountProduct(products.length)
+  }, [products, handleCountProduct])
 
   const indexOfLastProduct = currentPage * 4;
   const indexOfFirstProduct = indexOfLastProduct - 4;
@@ -99,7 +63,7 @@ function Main(props){
   return (
     <div className="main">
       <ResultTop
-        products={products}
+        countProduct={countProduct}
         sort={sort}
         handleSort={handleSort}
       />
@@ -110,10 +74,56 @@ function Main(props){
       <Pagination
         currentPage={currentPage}
         handleCurrentPage={handleCurrentPage}
-        totalProduct={products.length}
+        totalProduct={countProduct}
       />
     </div>
   )
 }
 
-export default Main;
+const mapStateToProps = (state) => {
+  return {
+    products: state.main.products,
+    sort: state.main.sort,
+    currentPage: state.main.currentPage,
+    countProduct: state.main.countProduct,
+    isLoading: state.main.isLoading,
+    types: state.menu.types,
+    valueTitle: state.menu.valueTitle,
+    valueType: state.menu.valueType,
+    valueByType: state.menu.valueByType,
+    valueBrand: state.menu.valueBrand,
+    valueRating: state.menu.valueRating,
+    valuePriceStart: state.menu.valuePriceStart,
+    valuePriceEnd: state.menu.valuePriceEnd,
+    valueSearch: state.header.valueSearch,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadProduct: (valueTitle,
+      valueType,
+      valueByType,
+      valueBrand,
+      valueRating,
+      valuePriceStart,
+      valuePriceEnd,
+      valueSearch,
+      sort) => {
+        dispatch(fetchProduct(valueTitle,
+          valueType,
+          valueByType,
+          valueBrand,
+          valueRating,
+          valuePriceStart,
+          valuePriceEnd,
+          valueSearch,
+          sort))
+      },
+    handleCountProduct: (countProduct) => dispatch(editCountProduct(countProduct)),
+    handleCurrentPage: (currentPage) => dispatch(editCurrentPage(currentPage)),
+    handleSort: (sort) => dispatch(editSort(sort)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -1,5 +1,5 @@
 export const EDIT_TITLE = "EDIT_TITLE";
-export const EDIT_TYLE = "EDIT_TYLE";
+export const EDIT_TYPE = "EDIT_TYPE";
 export const EDIT_BY_TYPE = "EDIT_BY_TYPE";
 export const EDIT_BRAND = "EDIT_BRAND";
 export const EDIT_RATING = "EDIT_RATING";
@@ -8,3 +8,8 @@ export const EDIT_PRICE_END = "EDIT_PRICE_END";
 export const CLEAR_FILLTER = "CLEAR_FILLTER";
 export const FETCH_TYPES = "FETCH_TYPES";
 export const FETCH_TYPES_SUCCESS = "FETCH_TYPES_SUCCESS";
+export const EDIT_TEXT_SEARCH = "EDIT_TEXT_SEARCH";
+export const EDIT_SORT = "EDIT_SORT";
+export const EDIT_CURRENT_PAGE = "EDIT_CURRENT_PAGE";
+export const FETCH_PRODUCT_SUCCESS = "FETCH_PRODUCT_SUCCESS";
+export const EDIT_COUNT_PRODUCT = "EDIT_COUNT_PRODUCT";

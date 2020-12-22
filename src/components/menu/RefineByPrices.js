@@ -1,10 +1,13 @@
 import React, {useState} from "react";
+import { connect } from "react-redux";
+import { editPriceStart, editPriceEnd  } from "../../actions/menu";
 
 function RefineByPrices(props){
   const {
-    valueByPriceStart,
-    valueByPriceEnd,
-    handleByPrice,
+    valuePriceStart,
+    valuePriceEnd,
+    handlePriceStart,
+    handlePriceEnd
   } = props;
 
   const [startInput, setStartInput] = useState("");
@@ -14,7 +17,8 @@ function RefineByPrices(props){
   const itemPrices = [];
 
   const handleOnClick = (start, end) => {
-    handleByPrice(start, end);
+    handlePriceStart(start);
+    handlePriceEnd(end)
     setEndInput(end);
     setStartInput(start);
   }
@@ -37,7 +41,7 @@ function RefineByPrices(props){
               <li
                 key={i}
                 onClick={()=> handleOnClick(e.start, e.end)}
-                className={valueByPriceEnd === e.end ? "active" : ""}
+                className={valuePriceEnd === e.end ? "active" : ""}
               >
                 ≤{e.end}
               </li>
@@ -47,7 +51,7 @@ function RefineByPrices(props){
               <li
                 key={i}
                 onClick={()=> handleOnClick(e.start, e.end)}
-                className={valueByPriceStart === e.start ? "active" : ""}
+                className={valuePriceStart === e.start ? "active" : ""}
               >
                 ≥{e.start}
               </li>
@@ -57,7 +61,7 @@ function RefineByPrices(props){
               <li
                 key={i}
                 onClick={()=> handleOnClick(e.start, e.end)}
-                className={valueByPriceStart === e.start ? "active" : ""}
+                className={valuePriceStart === e.start ? "active" : ""}
               >
                 {e.start} - {e.end}
               </li>
@@ -93,4 +97,11 @@ function RefineByPrices(props){
   );
 }
 
-export default RefineByPrices;
+const mapDispatchToProps = (dispatch) => {
+  return{
+    handlePriceStart: (start) => dispatch(editPriceStart(start)),
+    handlePriceEnd: (end) => dispatch(editPriceEnd(end)),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(RefineByPrices);

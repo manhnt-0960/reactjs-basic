@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {fetchTypes, clearAllFillter} from "../../actions/index"
+import {fetchTypes, clearAllFillter} from "../../actions/menu"
 
 import ShowResultFor from "./ShowResultFor";
 import RefineByType from "./RefineByType";
@@ -24,7 +24,7 @@ function Menu(props){
 
   useEffect(() => {
     fetchTypes();
-  }, []);
+  }, [fetchTypes]);
 
   const clearFillter = () => {
     clearAllFillter();
@@ -55,20 +55,28 @@ function Menu(props){
         <div className="menu__refine">
           <p className="menu__title-1">Refine by</p>
           <p className="menu__title-2">Type</p>
-          {/* <RefineByType
-          /> */}
+          <RefineByType
+            types={types}
+          />
 
           <p className="menu__title-2">Brand</p>
-          {/* <RefineByBrand
-          /> */}
+          <RefineByBrand
+            types={types}
+            valueTitle={valueTitle}
+            valueType={valueType}
+            valueBrand={valueBrand}
+          />
 
           <p className="menu__title-2">Ratings</p>
-          {/* <RefineByRatings
-          /> */}
+          <RefineByRatings
+            valueRating={valueRating}
+          />
           
           <p className="menu__title-2">Prices</p>
-          {/* <RefineByPrices
-          /> */}
+          <RefineByPrices
+            valuePriceStart={valuePriceStart}
+            valuePriceEnd={valuePriceEnd}
+          />
         </div>
         <hr></hr>
         <div className="menu__text">Data courtesy of Best Buy</div>
@@ -79,14 +87,14 @@ function Menu(props){
 
 const mapStateToProps = (state) => {
   return {
-    types: state.types,
-    valueTitle: state.valueTitle,
-    valueType: state.valueType,
-    valueByType: state.valueByType,
-    valueBrand: state.valueBrand,
-    valueRating: state.valueRating,
-    valuePriceStart: state.valuePriceStart,
-    valuePriceEnd: state.valuePriceEnd,
+    types: state.menu.types,
+    valueTitle: state.menu.valueTitle,
+    valueType: state.menu.valueType,
+    valueByType: state.menu.valueByType,
+    valueBrand: state.menu.valueBrand,
+    valueRating: state.menu.valueRating,
+    valuePriceStart: state.menu.valuePriceStart,
+    valuePriceEnd: state.menu.valuePriceEnd,
   }
 }
 

@@ -1,4 +1,6 @@
 import React from "react";
+import {connect} from "react-redux";
+import {editByType} from "../../actions/menu";
 
 function RefineByType(props){
   const {
@@ -45,4 +47,19 @@ function RefineByType(props){
   );
 }
 
-export default RefineByType;
+const mapStateToProps = (state) => {
+  return {
+    valueTitle: state.menu.valueTitle,
+    valueByType: state.menu.valueByType,
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleByType: (type) => {
+      dispatch(editByType(type))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RefineByType);

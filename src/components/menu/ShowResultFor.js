@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import {editTitle, editType} from "../../actions/index";
+import {editTitle, editType} from "../../actions/menu";
 
 function ShowResultFor(props){
   const {types, valueTitle, valueType, handleType, handleTitle} = props;
@@ -10,12 +10,12 @@ function ShowResultFor(props){
 
     if (index !== -1){
       handleTitle(title);
-      handleType("")
+      handleType("");
     }
   }
 
   const toggleSub = (id, type, typeMain) => {
-    let index = typeMain.subs.findIndex((x) => x.id  === id)
+    let index = typeMain.subs.findIndex((x) => x.id  === id);
     if(index !== -1){
       handleType(type);
     }
@@ -60,10 +60,10 @@ function ShowResultFor(props){
 }
 
 const mapStateToProps = (state) => {
-  return ({
-    valueTitle: state.valueTitle,
-    valueType: state.valueType
-  })
+  return {
+    valueTitle: state.menu.valueTitle,
+    valueType: state.menu.valueType
+  };
 }
 
 const mapDispatchToProps = (dispatch) => {

@@ -1,8 +1,10 @@
-import React from "react"
+import React from "react";
+import {connect} from "react-redux";
+import {editRating} from "../../actions/menu";
 
 function RefineByRatings(props){
   const {
-    valueByRating,
+    valueRating,
     handleByRating,
   } = props;
 
@@ -33,7 +35,7 @@ function RefineByRatings(props){
         {ratings.map((e, i) => (
           <li key={i}
             onClick={()=> handleOnClick(e)}
-            className={valueByRating === e ? "active" : ""}
+            className={valueRating === e ? "active" : ""}
           >
           {productRating(e)} & Up
           </li>
@@ -43,4 +45,10 @@ function RefineByRatings(props){
   );
 }
 
-export default RefineByRatings;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleByRating: (rating) => dispatch(editRating(rating))
+  }
+};
+
+export default connect(null, mapDispatchToProps)(RefineByRatings);

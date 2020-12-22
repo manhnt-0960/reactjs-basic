@@ -1,4 +1,6 @@
-import React from "react"
+import React from "react";
+import {connect} from "react-redux";
+import {editSearch} from "../actions/header";
 
 function Header(props){
   const {valueSearch, handleValueSearch} = props;
@@ -26,4 +28,18 @@ function Header(props){
   );
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+  return {
+    valueSearch: state.header.valueSearch,
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleValueSearch: (text) => {
+      dispatch(editSearch(text))
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

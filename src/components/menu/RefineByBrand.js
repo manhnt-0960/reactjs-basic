@@ -1,16 +1,19 @@
-import React from "react"
+import React from "react";
+import {connect} from "react-redux";
+import {editBrand} from "../../actions/menu";
+
 
 function RefineByBrand(props){
   const {
     types,
     valueTitle,
     handleByBrand,
-    valueByBrand,
+    valueBrand,
     valueType,
   } = props;
 
   const handleOnChange = (brand) => {
-    const newCheckedBrand = [...valueByBrand];
+    const newCheckedBrand = [...valueBrand];
     const currentBrand = newCheckedBrand.indexOf(brand);
 
     if(currentBrand === -1){
@@ -32,7 +35,7 @@ function RefineByBrand(props){
               e.subs.map((e) =>(
               <li key={e.id}>
                       <input type="checkbox" id={e.id}
-                        checked={valueByBrand.includes(e.brand) ? true : false}
+                        checked={valueBrand.includes(e.brand) ? true : false}
                         onChange={()=> handleOnChange(e.brand)}
                       />
                       <label htmlFor={e.id}>
@@ -47,4 +50,12 @@ function RefineByBrand(props){
   );
 }
 
-export default RefineByBrand;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleByBrand: (brand) => {
+      dispatch(editBrand(brand))
+    }
+  }
+};
+
+export default connect(null, mapDispatchToProps)(RefineByBrand);

@@ -1,5 +1,5 @@
 import * as Types from "../constants/index";
-import fetchTypesAPI from "../api/index";
+import {fetchTypesAPI} from "../api/index";
 
 export const editTitle = (title) => {
   return {
@@ -10,12 +10,12 @@ export const editTitle = (title) => {
 
 export const editType = (type) => {
   return {
-    type: Types.EDIT_TYLE,
-    type,
+    type: Types.EDIT_TYPE,
+    payload: type,
   }
 };
 
-export const setByType = (byType) => {
+export const editByType = (byType) => {
   return {
     type: Types.EDIT_BY_TYPE,
     byType,
@@ -45,7 +45,7 @@ export const editPriceEnd = (priceEnd) => {
 
 export const editPriceStart = (priceStart) => {
   return {
-    type: Types.EDIT_PRICE_END,
+    type: Types.EDIT_PRICE_START,
     priceStart,
   }
 };
@@ -60,7 +60,7 @@ export const fetchTypes = () => {
   return dispatch => {
     fetchTypesAPI()
       .then(res => res.json())
-      .then(types => dispatch(fetchTypesSuccess(types)))
+      .then(types => {console.log(types); return dispatch(fetchTypesSuccess(types))})
   }
 };
 
@@ -69,4 +69,8 @@ export const fetchTypesSuccess = (types) => {
     type: Types.FETCH_TYPES_SUCCESS,
     types,
   }
+}
+
+export const fetchType = () =>{
+  
 }

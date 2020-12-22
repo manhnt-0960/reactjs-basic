@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import "./scss/styles.scss";
 import Header from "./components/Header";
 import Menu from "./components/menu/Menu";
@@ -11,12 +11,9 @@ function App(){
 
   return (
     <div>
-      {/* <Header
-        valueSearch={valueSearch}
-        handleValueSearch={handleValueSearch}
-      /> */}
+      <Header/>
       <Menu/>
-      {/* <Main/> */}
+      <Main/>
     </div>
   );
 }

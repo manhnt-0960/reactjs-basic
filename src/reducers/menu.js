@@ -19,10 +19,10 @@ const menu = (state = initialState, action) => {
          valueTitle: action.title
        };
 
-    case Types.EDIT_TYLE:
+    case Types.EDIT_TYPE:
       return {
         ...state,
-        valueType: action.type
+        valueType: action.payload,
       };
 
     case Types.EDIT_BY_TYPE:
@@ -46,13 +46,13 @@ const menu = (state = initialState, action) => {
     case Types.EDIT_PRICE_START:
       return {
         ...state,
-        valuePriceStart: action.valuePriceStart,
+        valuePriceStart: action.priceStart,
       };
 
     case Types.EDIT_PRICE_END:
       return {
         ...state,
-        valuePriceEnd: action.valuePriceEnd,
+        valuePriceEnd: action.priceEnd,
       };
 
     case Types.CLEAR_FILLTER:
