@@ -1,14 +1,13 @@
 import React, {useState} from "react";
-import { connect } from "react-redux";
-import { editPriceStart, editPriceEnd  } from "../../actions/menu";
+import { useDispatch, useSelector } from "react-redux";
+import {handlePriceEnd, handlePriceStart} from "../../features/menuSlice";
 
-function RefineByPrices(props){
+function RefineByPrices(){
+  const dispatch = useDispatch();
   const {
     valuePriceStart,
     valuePriceEnd,
-    handlePriceStart,
-    handlePriceEnd
-  } = props;
+  } = useSelector((state) => state.menu);
 
   const [startInput, setStartInput] = useState("");
   const [endInput, setEndInput] = useState("");
@@ -17,8 +16,8 @@ function RefineByPrices(props){
   const itemPrices = [];
 
   const handleOnClick = (start, end) => {
-    handlePriceStart(start);
-    handlePriceEnd(end)
+    dispatch(handlePriceStart(start));
+    dispatch(handlePriceEnd(end));
     setEndInput(end);
     setStartInput(start);
   }
@@ -97,11 +96,4 @@ function RefineByPrices(props){
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return{
-    handlePriceStart: (start) => dispatch(editPriceStart(start)),
-    handlePriceEnd: (end) => dispatch(editPriceEnd(end)),
-  }
-}
-
-export default connect(null, mapDispatchToProps)(RefineByPrices);
+export default RefineByPrices;

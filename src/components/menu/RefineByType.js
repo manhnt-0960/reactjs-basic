@@ -1,26 +1,17 @@
 import React from "react";
-import {connect} from "react-redux";
-import {editByType} from "../../actions/menu";
+import {useDispatch, useSelector} from "react-redux";
+import {handleByType} from "../../features/menuSlice";
 
 function RefineByType(props){
+  const dispatch = useDispatch();
+  const {types} = props;
   const {
-    types,
     valueTitle,
     valueByType,
-    handleByType,
-  } = props;
+  } = useSelector((state) => state.menu);
 
   const handleOnChange = (type) => {
-    const newChecked = [...valueByType];
-    const currentType = newChecked.indexOf(type)
-    
-    if(currentType === -1){
-      newChecked.push(type);
-    } else{
-      newChecked.splice(currentType, 1);
-    }
-
-    handleByType(newChecked);
+    dispatch(handleByType(type));
   };
 
   return(
@@ -47,19 +38,4 @@ function RefineByType(props){
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    valueTitle: state.menu.valueTitle,
-    valueByType: state.menu.valueByType,
-  }
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleByType: (type) => {
-      dispatch(editByType(type))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RefineByType);
+export default RefineByType;

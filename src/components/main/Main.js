@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import ResultTop from "./ResultTop";
 import Products from "./Products";
 import Pagination from "./Pagination";
-import { fetchProduct, editCountProduct, editCurrentPage, editSort } from "../../actions/main";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {loadProduct} from "../../features/mainSlice";
 
 function Main(props){
+  const dispatch = useDispatch();
   const {
     valueTitle,
     valueType,
@@ -14,20 +15,19 @@ function Main(props){
     valueRating,    
     valuePriceStart,
     valuePriceEnd,
-    valueSearch,
+  } = useSelector((state) => state.menu);
+
+  const {valueSearch} = useSelector((state) => state.header);
+
+  const {
     products,
     sort,
     currentPage,
-    countProduct,
-    loadProduct,
-    handleCountProduct,
-    handleCurrentPage,
-    handleSort,
     isLoading
-  } = props;
+  } = useSelector((state) => state.main);
 
   useEffect(()=> {
-    loadProduct(valueTitle,
+    dispatch(loadProduct({valueTitle,
       valueType,
       valueByType,
       valueBrand,
@@ -35,7 +35,7 @@ function Main(props){
       valuePriceStart,
       valuePriceEnd,
       valueSearch,
-      sort)
+      sort}))
   }, [
     valueTitle,
     valueType,
@@ -46,13 +46,8 @@ function Main(props){
     valuePriceEnd,
     valueSearch,
     sort,
-    loadProduct
+    dispatch,
   ]);
-
-  useEffect(()=>{
-
-    handleCountProduct(products.length)
-  }, [products, handleCountProduct])
 
   const indexOfLastProduct = currentPage * 4;
   const indexOfFirstProduct = indexOfLastProduct - 4;
@@ -68,18 +63,14 @@ function Main(props){
       ) : (
         <div>
           <ResultTop
-            countProduct={countProduct}
-            sort={sort}
-            handleSort={handleSort}
+            products={products}
           />
           <Products
-            products={currentProducts}
+            currentProducts={currentProducts}
           />
 
           <Pagination
-            currentPage={currentPage}
-            handleCurrentPage={handleCurrentPage}
-            totalProduct={countProduct}
+            products={products}
           />
         </div>
       )}
@@ -87,50 +78,4 @@ function Main(props){
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    products: state.main.products,
-    sort: state.main.sort,
-    currentPage: state.main.currentPage,
-    countProduct: state.main.countProduct,
-    isLoading: state.main.isLoading,
-    types: state.menu.types,
-    valueTitle: state.menu.valueTitle,
-    valueType: state.menu.valueType,
-    valueByType: state.menu.valueByType,
-    valueBrand: state.menu.valueBrand,
-    valueRating: state.menu.valueRating,
-    valuePriceStart: state.menu.valuePriceStart,
-    valuePriceEnd: state.menu.valuePriceEnd,
-    valueSearch: state.header.valueSearch,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadProduct: (valueTitle,
-      valueType,
-      valueByType,
-      valueBrand,
-      valueRating,
-      valuePriceStart,
-      valuePriceEnd,
-      valueSearch,
-      sort) => {
-        dispatch(fetchProduct(valueTitle,
-          valueType,
-          valueByType,
-          valueBrand,
-          valueRating,
-          valuePriceStart,
-          valuePriceEnd,
-          valueSearch,
-          sort))
-      },
-    handleCountProduct: (countProduct) => dispatch(editCountProduct(countProduct)),
-    handleCurrentPage: (currentPage) => dispatch(editCurrentPage(currentPage)),
-    handleSort: (sort) => dispatch(editSort(sort)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default Main;

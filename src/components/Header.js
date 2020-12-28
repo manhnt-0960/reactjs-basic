@@ -1,10 +1,15 @@
 import React from "react";
-import {connect} from "react-redux";
-import {editSearch} from "../actions/header";
+import { useDispatch, useSelector } from "react-redux";
+import {handleSearch} from "../features/headerSlice";
 
-function Header(props){
-  const {valueSearch, handleValueSearch} = props;
+function Header(){
+  const dispatch = useDispatch();
 
+  const valueSearch = useSelector((state) => state.header.valueSearch);
+  const handleValueSearch = (text) => {
+    const action = handleSearch(text);
+    dispatch(action);
+  }
   return (
     <header>
       <a href="./" className="header__logo">
@@ -28,18 +33,4 @@ function Header(props){
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    valueSearch: state.header.valueSearch,
-  }
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleValueSearch: (text) => {
-      dispatch(editSearch(text))
-    }
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

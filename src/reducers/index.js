@@ -1,13 +1,13 @@
 import { combineReducers } from "redux";
-import menu from "./menu";
-import header from "./header";
-import main from "./main";
+import menuReducer from "../features/menuSlice";
+import headerReducer from "../features/headerSlice";
+import mainReducer from "../features/mainSlice";
 
 
 const appReducer = combineReducers({
-  menu,
-  header,
-  main,
+  menu: menuReducer,
+  header: headerReducer,
+  main: mainReducer,
 });
 
 export default appReducer;

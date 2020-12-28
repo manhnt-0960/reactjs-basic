@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
-import {connect} from "react-redux";
-import {fetchTypes, clearAllFillter} from "../../actions/menu"
+import {useDispatch, useSelector} from "react-redux";
+import {fetchTypes, handleClearFillter} from "../../features/menuSlice"
 
 import ShowResultFor from "./ShowResultFor";
 import RefineByType from "./RefineByType";
@@ -9,6 +9,8 @@ import RefineByRatings from "./RefineByRatings";
 import RefineByPrices from "./RefineByPrices";
 
 function Menu(props){
+  const dispatch = useDispatch();
+
   const {
     types,
     valueTitle,
@@ -18,18 +20,13 @@ function Menu(props){
     valueRating,
     valuePriceStart,
     valuePriceEnd,
-    clearAllFillter,
-    fetchTypes,
     MenuIsLoading
-  } = props;
+  } = useSelector((state) => state.menu);
 
   useEffect(() => {
-    fetchTypes();
-  }, [fetchTypes]);
-
-  const clearFillter = () => {
-    clearAllFillter();
-  }
+    const action = fetchTypes();
+    dispatch(action);
+  }, [dispatch]);
 
   return(
     <React.Fragment>
@@ -46,7 +43,7 @@ function Menu(props){
               valueRating ||
               valuePriceStart ||
               valuePriceEnd ? (
-                <button onClick={()=> clearFillter()}>Clear all filter</button>
+                <button onClick={()=> dispatch(handleClearFillter())}>Clear all filter</button>
               ) : ("")
             }
           </div>
@@ -67,20 +64,14 @@ function Menu(props){
             <p className="menu__title-2">Brand</p>
             <RefineByBrand
               types={types}
-              valueTitle={valueTitle}
-              valueType={valueType}
-              valueBrand={valueBrand}
             />
 
             <p className="menu__title-2">Ratings</p>
             <RefineByRatings
-              valueRating={valueRating}
             />
             
             <p className="menu__title-2">Prices</p>
             <RefineByPrices
-              valuePriceStart={valuePriceStart}
-              valuePriceEnd={valuePriceEnd}
             />
           </div>
           <hr></hr>
@@ -92,29 +83,4 @@ function Menu(props){
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    types: state.menu.types,
-    valueTitle: state.menu.valueTitle,
-    valueType: state.menu.valueType,
-    valueByType: state.menu.valueByType,
-    valueBrand: state.menu.valueBrand,
-    valueRating: state.menu.valueRating,
-    valuePriceStart: state.menu.valuePriceStart,
-    valuePriceEnd: state.menu.valuePriceEnd,
-    MenuIsLoading: state.menu.MenuIsLoading,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    clearAllFillter: () => {
-      dispatch(clearAllFillter());
-    },
-    fetchTypes: () => {
-      dispatch(fetchTypes());
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Menu);
+export default Menu;

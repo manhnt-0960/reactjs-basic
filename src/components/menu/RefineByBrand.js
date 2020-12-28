@@ -1,27 +1,19 @@
 import React from "react";
-import {connect} from "react-redux";
-import {editBrand} from "../../actions/menu";
+import { useDispatch, useSelector } from "react-redux";
+import {handleBrand} from "../../features/menuSlice";
 
 
 function RefineByBrand(props){
+  const dispatch = useDispatch();
+  const {types} = props;
   const {
-    types,
     valueTitle,
-    handleByBrand,
     valueBrand,
     valueType,
-  } = props;
+  } = useSelector((state) => state.menu);
 
   const handleOnChange = (brand) => {
-    const newCheckedBrand = [...valueBrand];
-    const currentBrand = newCheckedBrand.indexOf(brand);
-
-    if(currentBrand === -1){
-      newCheckedBrand.push(brand);
-    } else{
-      newCheckedBrand.splice(currentBrand, 1);
-    }
-    handleByBrand(newCheckedBrand);
+    dispatch(handleBrand(brand));
   }
 
   return(
@@ -50,12 +42,4 @@ function RefineByBrand(props){
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleByBrand: (brand) => {
-      dispatch(editBrand(brand))
-    }
-  }
-};
-
-export default connect(null, mapDispatchToProps)(RefineByBrand);
+export default RefineByBrand;

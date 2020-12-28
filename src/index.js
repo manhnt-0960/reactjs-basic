@@ -5,13 +5,14 @@ import App from './App';
 import 'font-awesome/css/font-awesome.min.css';
 import reportWebVitals from './reportWebVitals';
 
-import {createStore, applyMiddleware, compose} from "redux";
+import {configureStore} from "@reduxjs/toolkit";
 import appReducer from "./reducers/index";
 import { Provider } from "react-redux";
-import thunk from "redux-thunk";
-import logger from "redux-logger"
 
-const store = createStore(appReducer, compose(applyMiddleware(thunk, logger)));
+// const store = createStore(appReducer, compose(applyMiddleware(thunk, logger)));
+const store = configureStore({
+  reducer: appReducer,
+})
 
 ReactDOM.render(
   // <React.StrictMode>

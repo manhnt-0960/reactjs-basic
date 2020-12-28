@@ -1,12 +1,10 @@
 import React from "react";
-import {connect} from "react-redux";
-import {editRating} from "../../actions/menu";
+import {useDispatch, useSelector} from "react-redux";
+import {handleRating} from "../../features/menuSlice";
 
-function RefineByRatings(props){
-  const {
-    valueRating,
-    handleByRating,
-  } = props;
+function RefineByRatings(){
+  const dispatch = useDispatch();
+  const { valueRating } = useSelector((state) => state.menu);
 
   const ratings = [4, 3, 2, 1];
 
@@ -26,7 +24,8 @@ function RefineByRatings(props){
   };
 
   const handleOnClick = (rating) => {
-    handleByRating(rating);
+    const action = handleRating(rating);
+    dispatch(action);
   };
 
   return(
@@ -45,10 +44,4 @@ function RefineByRatings(props){
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleByRating: (rating) => dispatch(editRating(rating))
-  }
-};
-
-export default connect(null, mapDispatchToProps)(RefineByRatings);
+export default RefineByRatings;

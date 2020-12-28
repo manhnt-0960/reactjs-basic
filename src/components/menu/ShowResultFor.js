@@ -1,23 +1,25 @@
 import React from "react";
-import { connect } from "react-redux";
-import {editTitle, editType} from "../../actions/menu";
+import { useDispatch, useSelector } from "react-redux";
+import {handleTitle, handleType} from "../../features/menuSlice";
 
 function ShowResultFor(props){
-  const {types, valueTitle, valueType, handleType, handleTitle} = props;
+  const dispatch = useDispatch();
+  const {types} = props;
+  const { valueTitle, valueType } = useSelector((state) => state.menu);
 
   const toggle = (id, title, subs) => {
     let index = types.findIndex((x) => x.id === id)
 
     if (index !== -1){
-      handleTitle(title);
-      handleType("");
+      dispatch(handleTitle(title));
+      dispatch(handleType(""));
     }
   }
 
   const toggleSub = (id, type, typeMain) => {
     let index = typeMain.subs.findIndex((x) => x.id  === id);
     if(index !== -1){
-      handleType(type);
+      dispatch(handleType(type));
     }
   }
 
@@ -59,22 +61,4 @@ function ShowResultFor(props){
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    valueTitle: state.menu.valueTitle,
-    valueType: state.menu.valueType
-  };
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return{
-    handleTitle: (title) => {
-      dispatch(editTitle(title))
-    },
-    handleType: (type) => {
-      dispatch(editType(type))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShowResultFor);
+export default ShowResultFor;

@@ -1,14 +1,19 @@
 const fetchTypesAPI = () => {
   let url = "https://enigmatic-savannah-13455.herokuapp.com/types";
 
-  return new Promise((resolve, reject) => {
-    fetch(url)
-      .then(respond => resolve(respond))
-      .catch(error => reject(error))
-  })
+  // return new Promise((resolve, reject) => {
+  //   fetch(url)
+  //     .then(respond => resolve(respond))
+  //     .catch(error => reject(error))
+  // })
+  return fetch(url)
+    .then((res) => res.json())
+    .then((result) => {
+      return result;
+    });
 };
 
-const fetchProducts = (
+const fetchProducts = ({
   valueTitle,
   valueType,
   valueByType,
@@ -18,7 +23,7 @@ const fetchProducts = (
   valuePriceEnd,
   valueSearch,
   sort,
-) => {
+}) => {
   let url = `https://enigmatic-savannah-13455.herokuapp.com/products?`;
 
   if (valueTitle) {
@@ -66,10 +71,15 @@ const fetchProducts = (
     url += `&q=${valueSearch}`;
   }
 
-  return new Promise((resolve, reject) => {
-    fetch(url)
-    .then(respond => resolve(respond))
-    .catch(error => reject(error))
+    // return fetch(url)
+    //   .then(respond => respond.json())
+    //   .then((result) => {
+    //     return result;
+    //   });
+  return fetch(url)
+  .then((res) => res.json())
+  .then((result) => {
+    return result;
   });
 }
 
