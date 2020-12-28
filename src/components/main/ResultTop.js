@@ -2,13 +2,13 @@ import React from "react";
 
 function ResultTop(props) {
   const {
-    countproducts, sort, handleSort
+    countProduct, sort, handleSort
   } = props;
 
   return (
     <div className="result-top">
       <div className="result-top__left">
-        {countproducts} results found in 3ms
+        {countProduct} results found in 3ms
       </div>
       <div className="result-top__right">
         <label>Sort by</label>

@@ -11,6 +11,8 @@ export const fetchProduct = (valueTitle,
   valueSearch,
   sort) => {
   return dispatch => {
+    dispatch(beginFetch());
+
     fetchProducts(valueTitle,
       valueType,
       valueByType,
@@ -50,5 +52,11 @@ export const editCountProduct = (countProduct) => {
   return {
     type: Types.EDIT_COUNT_PRODUCT,
     countProduct,
+  }
+}
+
+export const beginFetch = () => {
+  return {
+    type: Types.BEGIN_FETCH,
   }
 }

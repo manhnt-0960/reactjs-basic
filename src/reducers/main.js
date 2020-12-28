@@ -16,8 +16,14 @@ const main = (state = initialState, action) => {
         ...state,
         products: action.products,
         isLoading: false,
-        error: ""
+        error: "",
       };
+
+    case Types.BEGIN_FETCH:
+      return {
+        ...state,
+        isLoading: true,
+      }
     
     case Types.EDIT_CURRENT_PAGE:
       return {

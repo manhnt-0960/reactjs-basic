@@ -19,7 +19,8 @@ function Menu(props){
     valuePriceStart,
     valuePriceEnd,
     clearAllFillter,
-    fetchTypes
+    fetchTypes,
+    MenuIsLoading
   } = props;
 
   useEffect(() => {
@@ -33,53 +34,59 @@ function Menu(props){
   return(
     <React.Fragment>
       <aside className="menu">
-        <div className="menu__clear">
-          {valueBrand.length > 0 ||
-            valueTitle ||
-            valueType ||
-            valueByType.length > 0 ||
-            valueRating ||
-            valuePriceStart ||
-            valuePriceEnd ? (
-              <button onClick={()=> clearFillter()}>Clear all filter</button>
-            ) : ("")
-          }
-        </div>
-        <div className="menu__result">
-          <p className="menu__title-1">Show result for</p>
-          <ShowResultFor
-            types={types}
-          />
-        </div>
-        <hr></hr>
-        <div className="menu__refine">
-          <p className="menu__title-1">Refine by</p>
-          <p className="menu__title-2">Type</p>
-          <RefineByType
-            types={types}
-          />
+        {MenuIsLoading ? (
+          <div>Loading....</div>
+        ) : (
+          <div>
+            <div className="menu__clear">
+            {valueBrand.length > 0 ||
+              valueTitle ||
+              valueType ||
+              valueByType.length > 0 ||
+              valueRating ||
+              valuePriceStart ||
+              valuePriceEnd ? (
+                <button onClick={()=> clearFillter()}>Clear all filter</button>
+              ) : ("")
+            }
+          </div>
+          <div className="menu__result">
+            <p className="menu__title-1">Show result for</p>
+            <ShowResultFor
+              types={types}
+            />
+          </div>
+          <hr></hr>
+          <div className="menu__refine">
+            <p className="menu__title-1">Refine by</p>
+            <p className="menu__title-2">Type</p>
+            <RefineByType
+              types={types}
+            />
 
-          <p className="menu__title-2">Brand</p>
-          <RefineByBrand
-            types={types}
-            valueTitle={valueTitle}
-            valueType={valueType}
-            valueBrand={valueBrand}
-          />
+            <p className="menu__title-2">Brand</p>
+            <RefineByBrand
+              types={types}
+              valueTitle={valueTitle}
+              valueType={valueType}
+              valueBrand={valueBrand}
+            />
 
-          <p className="menu__title-2">Ratings</p>
-          <RefineByRatings
-            valueRating={valueRating}
-          />
-          
-          <p className="menu__title-2">Prices</p>
-          <RefineByPrices
-            valuePriceStart={valuePriceStart}
-            valuePriceEnd={valuePriceEnd}
-          />
+            <p className="menu__title-2">Ratings</p>
+            <RefineByRatings
+              valueRating={valueRating}
+            />
+            
+            <p className="menu__title-2">Prices</p>
+            <RefineByPrices
+              valuePriceStart={valuePriceStart}
+              valuePriceEnd={valuePriceEnd}
+            />
+          </div>
+          <hr></hr>
+          <div className="menu__text">Data courtesy of Best Buy</div>
         </div>
-        <hr></hr>
-        <div className="menu__text">Data courtesy of Best Buy</div>
+      )}
       </aside>
     </React.Fragment>
   );
@@ -95,6 +102,7 @@ const mapStateToProps = (state) => {
     valueRating: state.menu.valueRating,
     valuePriceStart: state.menu.valuePriceStart,
     valuePriceEnd: state.menu.valuePriceEnd,
+    MenuIsLoading: state.menu.MenuIsLoading,
   }
 }
 

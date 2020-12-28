@@ -1,5 +1,6 @@
 import * as Types from "../constants/index";
 import {fetchTypesAPI} from "../api/index";
+// import {beginFetch} from "./main";
 
 export const editTitle = (title) => {
   return {
@@ -58,9 +59,10 @@ export const clearAllFillter = () => {
 
 export const fetchTypes = () => {
   return dispatch => {
+    dispatch(beginFetchMenu());
     fetchTypesAPI()
       .then(res => res.json())
-      .then(types => {console.log(types); return dispatch(fetchTypesSuccess(types))})
+      .then(types => {console.log(types); return dispatch(fetchTypesSuccess(types))});
   }
 };
 
@@ -71,6 +73,8 @@ export const fetchTypesSuccess = (types) => {
   }
 }
 
-export const fetchType = () =>{
-  
+export const beginFetchMenu = () => {
+  return {
+   type: Types.BEGIN_FETCH_MENU,
+  }
 }

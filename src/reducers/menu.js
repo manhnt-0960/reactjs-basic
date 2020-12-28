@@ -9,6 +9,8 @@ const initialState = {
   valuePriceStart: "",
   valuePriceEnd: "",
   types: [],
+  MenuIsLoading: false,
+  error: "",
 };
 
 const menu = (state = initialState, action) => {
@@ -63,8 +65,15 @@ const menu = (state = initialState, action) => {
     case Types.FETCH_TYPES_SUCCESS:
       return {
         ...state,
+        MenuIsLoading: false,
         types: action.types,
       };
+    
+    case Types.BEGIN_FETCH_MENU:
+      return {
+        ...state,
+        MenuIsLoading: true,
+      }
 
     default:
       return {...state};

@@ -22,7 +22,8 @@ function Main(props){
     loadProduct,
     handleCountProduct,
     handleCurrentPage,
-    handleSort
+    handleSort,
+    isLoading
   } = props;
 
   useEffect(()=> {
@@ -62,22 +63,28 @@ function Main(props){
 
   return (
     <div className="main">
-      <ResultTop
-        countProduct={countProduct}
-        sort={sort}
-        handleSort={handleSort}
-      />
-      <Products
-        products={currentProducts}
-      />
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <div>
+          <ResultTop
+            countProduct={countProduct}
+            sort={sort}
+            handleSort={handleSort}
+          />
+          <Products
+            products={currentProducts}
+          />
 
-      <Pagination
-        currentPage={currentPage}
-        handleCurrentPage={handleCurrentPage}
-        totalProduct={countProduct}
-      />
+          <Pagination
+            currentPage={currentPage}
+            handleCurrentPage={handleCurrentPage}
+            totalProduct={countProduct}
+          />
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
 const mapStateToProps = (state) => {
